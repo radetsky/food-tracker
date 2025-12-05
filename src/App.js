@@ -1,23 +1,76 @@
 import React, { useState, useEffect } from 'react';
 
-const FOOD_ITEMS = [
-    "Бобові 50г/картопля 180г/кукурудза свіжа 180г/пластівці 50г/булгур 50г/гречка 50г/рис (не шліфований) 50г/будь-яка крупа 50г/цільнозернове борошно 50г/Хлібці 80г/цільнозерновий хліб 85г/макарони т.с. 50г/лаваш 80г",
-    "Бобові 50г/картопля 180г/кукурудза свіжа 180г/пластівці 50г/булгур 50г/гречка 50г/рис (не шліфований) 50г/будь-яка крупа 50г/цільнозернове борошно 50г/Хлібці 80г/цільнозерновий хліб 85г/макарони т.с. 50г/лаваш 80г",
-    "Овочі (квашені також і зелень)/гриби/ (300 г)",
-    "Овочі (квашені також і зелень)/гриби/ (300 г)",
-    "Телятина(160)/печінка(160)/куряче або індиче філе(190г)/риба (до 5% жиру 185г, від 5% 125г)/3 яйця /морепродукти 220г",
-    "Телятина(160)/печінка(160)/куряче або індиче філе(190г)/риба (до 5% жиру 185г, від 5% 125г)/3 яйця /морепродукти 220г",
-    "Смаколики 55г або 550г фруктів або 200г калорійних фруктів (банани, виноград, хурма чи манго)",
-    "Сир 55 г або несолодкий йогурт 1,6%жиру 370г",
-    "Горіхи або насіння 20г",
-    "Фрукти та ягоди 300г (якщо це банани, виноград, хурма чи манго, то 180г)",
-    "Несолодкий йогурт/1,5-2,5% 200г",
-    "Будь-яка олія 12 г/авокадо 65г/оливки 80г/гірчиця 28г/майонез 15г/кетчуп 42г",
-    "Будь-яка олія 12 г/авокадо 65г/оливки 80г/гірчиця 28г/майонез 15г/кетчуп 42г",
+const FOOD_CATEGORIES = [
+    {
+        id: 0,
+        name: "Складні вуглеводи (порція 1)",
+        items: ["Бобові 50г", "Картопля 180г", "Кукурудза свіжа 180г", "Пластівці 50г", "Булгур 50г", "Гречка 50г", "Рис (не шліфований) 50г", "Будь-яка крупа 50г", "Цільнозернове борошно 50г", "Хлібці 80г", "Цільнозерновий хліб 85г", "Макарони т.с. 50г", "Лаваш 80г"]
+    },
+    {
+        id: 1,
+        name: "Складні вуглеводи (порція 2)",
+        items: ["Бобові 50г", "Картопля 180г", "Кукурудза свіжа 180г", "Пластівці 50г", "Булгур 50г", "Гречка 50г", "Рис (не шліфований) 50г", "Будь-яка крупа 50г", "Цільнозернове борошно 50г", "Хлібці 80г", "Цільнозерновий хліб 85г", "Макарони т.с. 50г", "Лаваш 80г"]
+    },
+    {
+        id: 2,
+        name: "Овочі та гриби (порція 1)",
+        items: ["Овочі свіжі 300г", "Овочі квашені 300г", "Зелень 300г", "Гриби 300г"]
+    },
+    {
+        id: 3,
+        name: "Овочі та гриби (порція 2)",
+        items: ["Овочі свіжі 300г", "Овочі квашені 300г", "Зелень 300г", "Гриби 300г"]
+    },
+    {
+        id: 4,
+        name: "Білок (порція 1)",
+        items: ["Телятина 160г", "Печінка 160г", "Куряче філе 190г", "Індиче філе 190г", "Риба (до 5% жиру) 185г", "Риба (від 5% жиру) 125г", "3 яйця", "Морепродукти 220г"]
+    },
+    {
+        id: 5,
+        name: "Білок (порція 2)",
+        items: ["Телятина 160г", "Печінка 160г", "Куряче філе 190г", "Індиче філе 190г", "Риба (до 5% жиру) 185г", "Риба (від 5% жиру) 125г", "3 яйця", "Морепродукти 220г"]
+    },
+    {
+        id: 6,
+        name: "Смаколики або фрукти",
+        items: ["Смаколики 55г", "Фрукти 550г", "Калорійні фрукти (банани, виноград, хурма, манго) 200г"]
+    },
+    {
+        id: 7,
+        name: "Молочні продукти (порція 1)",
+        items: ["Сир зернистий (творог) 5% 160г", "Сири м'які/тверді/плавлені 55г", "Сметана 15% 110г", "Масло 27г", "Сало 19г", "Кефір 2.5% 360г", "Несолодкий йогурт 1.6% 370г"]
+    },
+    {
+        id: 8,
+        name: "Горіхи або насіння",
+        items: ["3 грецьких горіха", "Горіхи 20г", "Насіння 20г"]
+    },
+    {
+        id: 9,
+        name: "Фрукти та ягоди",
+        items: ["Фрукти та ягоди 300г", "Банани/виноград/хурма/манго 180г"]
+    },
+    {
+        id: 10,
+        name: "Молочні продукти (порція 2)",
+        items: ["Несолодкий йогурт 1.5-2.5% 200г"]
+    },
+    {
+        id: 11,
+        name: "Жири (порція 1)",
+        items: ["Олія 12г", "Авокадо 65г", "Оливки 80г", "Гірчиця 28г", "Майонез 15г", "Кетчуп 42г"]
+    },
+    {
+        id: 12,
+        name: "Жири (порція 2)",
+        items: ["Олія 12г", "Авокадо 65г", "Оливки 80г", "Гірчиця 28г", "Майонез 15г", "Кетчуп 42г"]
+    }
 ];
 
 export default function FoodTracker() {
-    const [completed, setCompleted] = useState([]);
+    const [completed, setCompleted] = useState({});
+    const [expanded, setExpanded] = useState(null);
     const [history, setHistory] = useState({});
     const [loading, setLoading] = useState(true);
     const [view, setView] = useState('today');
@@ -26,13 +79,11 @@ export default function FoodTracker() {
     useEffect(() => {
         const loadData = () => {
             try {
-                // Завантажуємо дані сьогоднішнього дня
                 const todayData = localStorage.getItem(`food-${today}`);
                 if (todayData) {
                     setCompleted(JSON.parse(todayData));
                 }
 
-                // Завантажуємо історію
                 const historyData = localStorage.getItem('food-history');
                 if (historyData) {
                     setHistory(JSON.parse(historyData));
@@ -49,11 +100,13 @@ export default function FoodTracker() {
 
     const saveData = (newCompleted) => {
         try {
-            // Зберігаємо дані сьогоднішнього дня
             localStorage.setItem(`food-${today}`, JSON.stringify(newCompleted));
 
-            // Оновлюємо історію
-            const newHistory = { ...history, [today]: newCompleted.length };
+            const completedCount = Object.keys(newCompleted).filter(key =>
+                newCompleted[key] && newCompleted[key].length > 0
+            ).length;
+
+            const newHistory = { ...history, [today]: completedCount };
             localStorage.setItem('food-history', JSON.stringify(newHistory));
             setHistory(newHistory);
         } catch (error) {
@@ -61,13 +114,27 @@ export default function FoodTracker() {
         }
     };
 
-    const toggleItem = (index) => {
-        const newCompleted = completed.includes(index)
-            ? completed.filter(i => i !== index)
-            : [...completed, index];
+    const toggleCategory = (categoryId) => {
+        setExpanded(expanded === categoryId ? null : categoryId);
+    };
+
+    const toggleItem = (categoryId, itemName) => {
+        const categoryItems = completed[categoryId] || [];
+        const newCategoryItems = categoryItems.includes(itemName)
+            ? categoryItems.filter(i => i !== itemName)
+            : [...categoryItems, itemName];
+
+        const newCompleted = {
+            ...completed,
+            [categoryId]: newCategoryItems
+        };
 
         setCompleted(newCompleted);
         saveData(newCompleted);
+    };
+
+    const isCategoryCompleted = (categoryId) => {
+        return completed[categoryId] && completed[categoryId].length > 0;
     };
 
     const getPast30Days = () => {
@@ -88,13 +155,16 @@ export default function FoodTracker() {
         return 'bg-green-800';
     };
 
-    const sortedItems = FOOD_ITEMS.map((item, idx) => ({
-        text: item,
-        index: idx,
-        completed: completed.includes(idx)
-    })).sort((a, b) => a.completed - b.completed);
+    const sortedCategories = [...FOOD_CATEGORIES].sort((a, b) => {
+        const aCompleted = isCategoryCompleted(a.id);
+        const bCompleted = isCategoryCompleted(b.id);
+        return aCompleted - bCompleted;
+    });
 
-    const allCompleted = completed.length === FOOD_ITEMS.length;
+    const totalCompleted = Object.keys(completed).filter(key =>
+        completed[key] && completed[key].length > 0
+    ).length;
+    const allCompleted = totalCompleted === FOOD_CATEGORIES.length;
 
     if (loading) {
         return (
@@ -142,9 +212,9 @@ export default function FoodTracker() {
                             })}
                         </div>
                         <div className="text-3xl font-bold text-green-600 mt-2">
-                            {completed.length} / {FOOD_ITEMS.length}
+                            {totalCompleted} / {FOOD_CATEGORIES.length}
                         </div>
-                        <div className="text-sm text-gray-600">пунктів виконано</div>
+                        <div className="text-sm text-gray-600">категорій виконано</div>
                     </div>
                 </div>
 
@@ -162,28 +232,83 @@ export default function FoodTracker() {
                             </div>
                         ) : (
                             <div className="space-y-3">
-                                {sortedItems.map(({ text, index, completed }) => (
-                                    <div
-                                        key={index}
-                                        onClick={() => toggleItem(index)}
-                                        className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${completed
-                                                ? 'bg-green-50 border-green-300 opacity-60'
-                                                : 'bg-white border-gray-200 hover:border-green-400 hover:shadow-md'
-                                            }`}
-                                    >
-                                        <div className="flex items-start gap-3">
-                                            <div className={`flex-shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center mt-1 ${completed
-                                                    ? 'bg-green-600 border-green-600'
-                                                    : 'border-gray-300'
-                                                }`}>
-                                                {completed && <span className="text-white text-sm">✓</span>}
+                                {sortedCategories.map((category) => {
+                                    const isCompleted = isCategoryCompleted(category.id);
+                                    const isExpanded = expanded === category.id;
+                                    const selectedItems = completed[category.id] || [];
+
+                                    return (
+                                        <div
+                                            key={category.id}
+                                            className={`rounded-lg border-2 transition-all ${isCompleted
+                                                    ? 'bg-green-50 border-green-300 opacity-60'
+                                                    : 'bg-white border-gray-200'
+                                                }`}
+                                        >
+                                            <div
+                                                onClick={() => toggleCategory(category.id)}
+                                                className="p-4 cursor-pointer hover:bg-gray-50"
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`flex-shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center ${isCompleted
+                                                                ? 'bg-green-600 border-green-600'
+                                                                : 'border-gray-300'
+                                                            }`}>
+                                                            {isCompleted && <span className="text-white text-sm">✓</span>}
+                                                        </div>
+                                                        <div className={`font-medium ${isCompleted ? 'line-through text-gray-500' : 'text-gray-800'}`}>
+                                                            {category.name}
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        {selectedItems.length > 0 && (
+                                                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                                                                {selectedItems.length} обрано
+                                                            </span>
+                                                        )}
+                                                        <span className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
+                                                            ▼
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className={`flex-1 ${completed ? 'line-through text-gray-500' : 'text-gray-800'}`}>
-                                                {text}
-                                            </div>
+
+                                            {isExpanded && (
+                                                <div className="px-4 pb-4 space-y-2 border-t border-gray-200 pt-3">
+                                                    {category.items.map((item, idx) => {
+                                                        const isSelected = selectedItems.includes(item);
+                                                        return (
+                                                            <div
+                                                                key={idx}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    toggleItem(category.id, item);
+                                                                }}
+                                                                className={`p-3 rounded-md cursor-pointer transition-all ${isSelected
+                                                                        ? 'bg-green-100 border-2 border-green-400'
+                                                                        : 'bg-gray-50 border-2 border-transparent hover:border-green-200'
+                                                                    }`}
+                                                            >
+                                                                <div className="flex items-center gap-2">
+                                                                    <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${isSelected
+                                                                            ? 'bg-green-600 border-green-600'
+                                                                            : 'border-gray-400'
+                                                                        }`}>
+                                                                        {isSelected && <span className="text-white text-xs">✓</span>}
+                                                                    </div>
+                                                                    <span className={`text-sm ${isSelected ? 'text-green-800 font-medium' : 'text-gray-700'}`}>
+                                                                        {item}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         )}
                     </div>
