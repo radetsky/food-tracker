@@ -119,7 +119,7 @@ export default function FoodTracker() {
     };
 
     const toggleItem = (categoryId, itemName) => {
-        const categoryItems = completed[categoryId] || [];
+        const categoryItems = Array.isArray(completed[categoryId]) ? completed[categoryId] : [];
         const newCategoryItems = categoryItems.includes(itemName)
             ? categoryItems.filter(i => i !== itemName)
             : [...categoryItems, itemName];
@@ -134,7 +134,8 @@ export default function FoodTracker() {
     };
 
     const isCategoryCompleted = (categoryId) => {
-        return completed[categoryId] && completed[categoryId].length > 0;
+        const items = completed[categoryId];
+        return Array.isArray(items) && items.length > 0;
     };
 
     const getPast30Days = () => {
@@ -242,7 +243,7 @@ export default function FoodTracker() {
                                 {sortedCategories.map((category) => {
                                     const isCompleted = isCategoryCompleted(category.id);
                                     const isExpanded = expanded === category.id;
-                                    const selectedItems = completed[category.id] || [];
+                                    const selectedItems = Array.isArray(completed[category.id]) ? completed[category.id] : [];
 
                                     return (
                                         <div
