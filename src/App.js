@@ -156,9 +156,16 @@ export default function FoodTracker() {
     };
 
     const sortedCategories = [...FOOD_CATEGORIES].sort((a, b) => {
-        const aCompleted = isCategoryCompleted(a.id);
-        const bCompleted = isCategoryCompleted(b.id);
-        return aCompleted - bCompleted;
+        const aCompleted = isCategoryCompleted(a.id) ? 1 : 0;
+        const bCompleted = isCategoryCompleted(b.id) ? 1 : 0;
+
+        // Спочатку невиконані, потім виконані
+        if (aCompleted !== bCompleted) {
+            return aCompleted - bCompleted;
+        }
+
+        // Якщо обидва виконані або невиконані - зберігаємо оригінальний порядок
+        return a.id - b.id;
     });
 
     const totalCompleted = Object.keys(completed).filter(key =>
